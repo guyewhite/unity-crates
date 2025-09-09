@@ -10,6 +10,9 @@ public class BoardGenerator : MonoBehaviour
     // board size
     public int width = 6;
     public int height = 6;
+
+    // board attributes
+    public int holeCount = 2;
     
     void Start()
     {
@@ -18,16 +21,19 @@ public class BoardGenerator : MonoBehaviour
     
     void GenerateBoard()
     {
+
+        // generate unique coordinates for the holes
+
         for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int z = 0; z < height; z++)
             {
-                Vector3 position = new Vector3(x * tileSize, 0, y * tileSize);
+                Vector3 position = new Vector3(x * tileSize, 0, z * tileSize);
 
                 GameObject tile;
 
                 // wall or floor?
-                if (IsEdgeTile(x, y))
+                if (IsEdgeTile(x, z))
                 {
                     // generator wall tile
                     tile = Instantiate(wallTilePrefab, position, Quaternion.identity);
@@ -38,7 +44,7 @@ public class BoardGenerator : MonoBehaviour
                     tile = Instantiate(floorTilePrefab, position, Quaternion.identity);
                 }
                 tile.transform.parent = transform;
-                tile.name = $"Floor_{x}_{y}";
+                tile.name = $"Floor_{x}_{z}";
             }
         }
     }
