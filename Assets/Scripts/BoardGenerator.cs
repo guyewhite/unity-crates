@@ -8,6 +8,7 @@ public class BoardGenerator : MonoBehaviour
     [SerializeField] private GameObject floorTilePrefab;
     [SerializeField] private GameObject wallTilePrefab;
     [SerializeField] private GameObject holeTilePrefab;
+    [SerializeField] private GameObject cratePrefab;
     [SerializeField] private float tileSize = 1f;
 
 
@@ -17,6 +18,11 @@ public class BoardGenerator : MonoBehaviour
 
     // board attributes
     public int holeCount = 2;
+    public int crateCount = 2;
+    
+    // hole and cratepositions
+    private HashSet<(int x, int z)> holePositions;
+    private HashSet<(int x, int z)> cratePositions;
     
     void Start()
     {
@@ -27,8 +33,10 @@ public class BoardGenerator : MonoBehaviour
     {
 
         // generate unique coordinates for the holes
-        HashSet<(int x, int z)> holePositions = GenerateHolePositions();
-        Debug.Log("Hole positions: " + string.Join(", ", holePositions));
+        holePositions = GenerateHolePositions();
+
+        // generate unique coordinates for the crates
+        cratePositions = GenerateCratePositions();
 
         for (int x = 0; x < width; x++)
         {
@@ -53,6 +61,15 @@ public class BoardGenerator : MonoBehaviour
                 {
                     // generator floor tile
                     tile = Instantiate(floorTilePrefab, position, Quaternion.identity);
+
+                    // Place crate on top of floor if this position has a crate
+                    if (cratePositions.Contains((x, z)))
+                    {
+                        Vector3 cratePosition = new Vector3(x * tileSize, 0.5f, z * tileSize);
+                        GameObject crate = Instantiate(cratePrefab, cratePosition, Quaternion.identity);
+                        crate.transform.parent = transform;
+                        crate.name = $"Crate_{x}_{z}";
+                    }
                 }
                 tile.transform.parent = transform;
                 tile.name = $"Floor_{x}_{z}";
@@ -69,7 +86,7 @@ public class BoardGenerator : MonoBehaviour
     private HashSet<(int x, int z)> GenerateHolePositions()
     {
         // Create a place to store the hole positions
-        HashSet<(int x, int z)> holePositions = new HashSet<(int x, int z)>();
+        holePositions = new HashSet<(int x, int z)>();
         
         // Calculate available positions (exclude edges)
         List<(int x, int z)> availablePositions = new List<(int x, int z)>();
@@ -95,5 +112,39 @@ public class BoardGenerator : MonoBehaviour
         }
         
         return holePositions;
+    }
+
+     private HashSet<(int x, int z)> GenerateCratePositions()
+    {
+        // Create a place to store the crate positions
+        HashSet<(int x, int z)> cratePositions = new HashSet<(int x, int z)>();
+        
+        // Calculate available positions (exclude edges)
+        List<(int x, int z)> availablePositions = new List<(int x, int z)>();
+        for (int x = 1; x < width - 1; x++)
+        {
+            for (int z = 1; z < height - 1; z++)
+            {
+                if (!holePositions.Contains((x, z)))
+                {
+                    availablePositions.Add((x, z));
+                }
+            }
+        }
+        
+        // Randomly select positions for crates
+        for (int i = 0; i < crateCount && availablePositions.Count > 0; i++)
+        {
+            // Select a random index from the available positions
+            int randomIndex = Random.Range(0, availablePositions.Count);
+            
+            // Add the crate position to the set
+            cratePositions.Add(availablePositions[randomIndex]);
+
+            // Remove the position from the list so we don't select it again
+            availablePositions.RemoveAt(randomIndex);
+        }
+        
+        return cratePositions;
     }
 }
