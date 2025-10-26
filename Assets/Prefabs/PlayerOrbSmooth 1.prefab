@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 4338900001828020052}
   - component: {fileID: 4411848028413419663}
   - component: {fileID: 1969404363334177346}
+  - component: {fileID: -8352009258291161150}
   m_Layer: 0
   m_Name: PlayerOrbSmooth 1
   m_TagString: Player
@@ -191,6 +192,32 @@ MonoBehaviour:
   minEmissionIntensity: 1
   maxEmissionIntensity: 2.5
   emissionColor: {r: 1.5, g: 1.2, b: 0.3, a: 1}
+--- !u!114 &-8352009258291161150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2794486032584058564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504657d27cf8f44a899a48ddf605211a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EtherealParticles
+  particleCount: 12
+  orbitRadius: 0.3
+  orbitRadiusVariation: 0.1
+  particleSize: 0.03
+  particleSizeVariation: 0.01
+  orbitSpeed: 0.3
+  floatAmplitude: 0.05
+  floatFrequency: 0.5
+  spiralIntensity: 0.1
+  particleColor: {r: 1, g: 0.5, b: 0.1, a: 0.8}
+  emissionIntensity: 2
+  pulseSpeed: 1
+  pulseIntensity: 0.3
+  particlePrefab: {fileID: 3456789012345678901, guid: ebb59fc6d31e84c5da7449609d4187a1, type: 3}
 --- !u!1 &3149096123587388962
 GameObject:
   m_ObjectHideFlags: 0
