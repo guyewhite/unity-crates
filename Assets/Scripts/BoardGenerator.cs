@@ -9,6 +9,7 @@ public class BoardGenerator : MonoBehaviour
     [SerializeField] private GameObject wallTilePrefab;
     [SerializeField] private GameObject holeTilePrefab;
     [SerializeField] private GameObject cratePrefab;
+    [SerializeField] private GameObject playerOrbPrefab;
     [SerializeField] private float tileSize = 1f;
 
 
@@ -20,9 +21,11 @@ public class BoardGenerator : MonoBehaviour
     public int holeCount = 2;
     public int crateCount = 2;
     
-    // hole and cratepositions
+    // player, hole and crate positions
+    private List<(int x, int z)> availablePositions;
     private HashSet<(int x, int z)> holePositions;
     private HashSet<(int x, int z)> cratePositions;
+    private (int x, int z) playerSpawnPosition;
     
     void Start()
     {
@@ -31,12 +34,17 @@ public class BoardGenerator : MonoBehaviour
     
     void GenerateBoard()
     {
+        // discover available positions on this board
+        availablePositions = GetAvailablePositions();
 
         // generate unique coordinates for the holes
         holePositions = GenerateHolePositions();
 
         // generate unique coordinates for the crates
         cratePositions = GenerateCratePositions();
+
+        // generate the player spawn position
+        playerSpawnPosition = GeneratePlayerSpawnPosition();
 
         for (int x = 0; x < width; x++)
         {
@@ -75,6 +83,11 @@ public class BoardGenerator : MonoBehaviour
                 tile.name = $"Floor_{x}_{z}";
             }
         }
+
+        // generate player OrbPulsate at the player spawn position
+        GameObject playerOrb = Instantiate(playerOrbPrefab, new Vector3(playerSpawnPosition.x * tileSize, 0, playerSpawnPosition.z * tileSize), Quaternion.identity);
+        playerOrb.transform.parent = transform;
+        playerOrb.name = $"PlayerOrb_{playerSpawnPosition.x}_{playerSpawnPosition.z}";
     }
 
     // detect if the tile is on the edge of the board
@@ -83,21 +96,28 @@ public class BoardGenerator : MonoBehaviour
         return x == 0 || y == 0 || x == width - 1 || y == height - 1;
     }
 
+    private List<(int x, int z)> GetAvailablePositions()
+    {
+        // Create a place to store the available positions
+        List<(int x, int z)> positions = new List<(int x, int z)>();
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                if (!IsEdgeTile(x, z))
+                {
+                    positions.Add((x, z));
+                }
+            }
+        }
+        return positions;
+    }
+
     private HashSet<(int x, int z)> GenerateHolePositions()
     {
         // Create a place to store the hole positions
         holePositions = new HashSet<(int x, int z)>();
-        
-        // Calculate available positions (exclude edges)
-        List<(int x, int z)> availablePositions = new List<(int x, int z)>();
-        for (int x = 1; x < width - 1; x++)
-        {
-            for (int z = 1; z < height - 1; z++)
-            {
-                availablePositions.Add((x, z));
-            }
-        }
-        
+               
         // Randomly select positions for holes
         for (int i = 0; i < holeCount && availablePositions.Count > 0; i++)
         {
@@ -119,24 +139,18 @@ public class BoardGenerator : MonoBehaviour
         // Create a place to store the crate positions
         HashSet<(int x, int z)> cratePositions = new HashSet<(int x, int z)>();
         
-        // Calculate available positions (exclude edges)
-        List<(int x, int z)> availablePositions = new List<(int x, int z)>();
-        for (int x = 1; x < width - 1; x++)
-        {
-            for (int z = 1; z < height - 1; z++)
-            {
-                if (!holePositions.Contains((x, z)))
-                {
-                    availablePositions.Add((x, z));
-                }
-            }
-        }
-        
-        // Randomly select positions for crates
+        // Randomly select positions for crates, but only if there are available positions
         for (int i = 0; i < crateCount && availablePositions.Count > 0; i++)
         {
+
             // Select a random index from the available positions
             int randomIndex = Random.Range(0, availablePositions.Count);
+
+            // If the selected position is an inner edge tile, select a new position
+            while (IsInnerEdgeTile(availablePositions[randomIndex].x, availablePositions[randomIndex].z))
+            {
+                randomIndex = Random.Range(0, availablePositions.Count);
+            }
             
             // Add the crate position to the set
             cratePositions.Add(availablePositions[randomIndex]);
@@ -146,5 +160,27 @@ public class BoardGenerator : MonoBehaviour
         }
         
         return cratePositions;
+    }
+
+    private (int x, int z) GeneratePlayerSpawnPosition()
+    {
+        // calculate available positions (exclude edges and holes)
+        List<(int x, int z)> availablePositions = GetAvailablePositions();
+
+        // Remove positions that already have holes or crates
+        availablePositions.RemoveAll(pos => holePositions.Contains(pos) || cratePositions.Contains(pos));
+
+        // select a random index from the available positions
+        int randomIndex = Random.Range(0, availablePositions.Count);
+
+        // return the selected player spawn position
+        return availablePositions[randomIndex];
+    }
+
+    // Check if tile is exactly 1 tile in from any edge
+    bool IsInnerEdgeTile(int x, int z)
+    {
+        return (x == 1 || x == width - 2 || z == 1 || z == height - 2) 
+              && !IsEdgeTile(x, z);
     }
 }

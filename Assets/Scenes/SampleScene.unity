@@ -478,6 +478,7 @@ MonoBehaviour:
   wallTilePrefab: {fileID: 2752054995302025851, guid: d1a848bc8535e41d2bf03e48b20f5f34, type: 3}
   holeTilePrefab: {fileID: 2752054995302025851, guid: 3132bd6243ddb4accbfe419b7a094f22, type: 3}
   cratePrefab: {fileID: 5824697234567890123, guid: 8ecf8c4ed3fca45e48362c2f8967cc8f, type: 3}
+  playerOrbPrefab: {fileID: 2794486032584058564, guid: b75f96e0b879848c79104008b161d46b, type: 3}
   tileSize: 1
   width: 8
   height: 8
