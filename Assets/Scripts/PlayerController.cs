@@ -50,18 +50,53 @@ public class PlayerController : MonoBehaviour
     void Move(Vector3 direction)
     {
         // Calculate next tile position
-        targetPosition = transform.position + (direction * tileSize);
-        isMoving = true;
+        Vector3 nextPosition = transform.position + (direction * tileSize);
 
-        // Push crate if present
+        // Check what's in front of player
         RaycastHit hit;
         if (Physics.Raycast(transform.position, direction, out hit, tileSize))
         {
             if (hit.collider.CompareTag("Crate"))
             {
-                // Move crate to next tile instantly
-                hit.collider.transform.position += direction * tileSize;
+                // Check if crate can be pushed
+                Vector3 cratePushPosition = hit.collider.transform.position + (direction * tileSize);
+
+                // Check if push position is blocked
+                if (IsPositionBlocked(cratePushPosition))
+                {
+                    // Can't push crate, so don't move player
+                    return;
+                }
+
+                // Push is valid, move the crate
+                hit.collider.transform.position = cratePushPosition;
+            }
+            else if (hit.collider.CompareTag("Wall"))
+            {
+                // Can't move into walls
+                return;
             }
         }
+
+        // Move the player
+        targetPosition = nextPosition;
+        isMoving = true;
+    }
+
+    bool IsPositionBlocked(Vector3 position)
+    {
+        // Check for any blocking objects at the position
+        Collider[] colliders = Physics.OverlapSphere(position, 0.1f);
+
+        foreach (Collider col in colliders)
+        {
+            // Position is blocked by wall or another crate
+            if (col.CompareTag("Wall") || col.CompareTag("Crate"))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
