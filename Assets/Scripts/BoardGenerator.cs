@@ -85,7 +85,7 @@ public class BoardGenerator : MonoBehaviour
         }
 
         // generate player OrbPulsate at the player spawn position
-        GameObject playerOrb = Instantiate(playerOrbPrefab, new Vector3(playerSpawnPosition.x * tileSize, 0, playerSpawnPosition.z * tileSize), Quaternion.identity);
+        GameObject playerOrb = Instantiate(playerOrbPrefab, new Vector3(playerSpawnPosition.x * tileSize, 0.5f, playerSpawnPosition.z * tileSize), Quaternion.identity);
         playerOrb.transform.parent = transform;
         playerOrb.name = $"PlayerOrb_{playerSpawnPosition.x}_{playerSpawnPosition.z}";
     }

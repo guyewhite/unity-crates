@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 4411848028413419663}
   - component: {fileID: 1969404363334177346}
   - component: {fileID: -8352009258291161150}
+  - component: {fileID: -140586815680194310}
   m_Layer: 0
   m_Name: PlayerOrb
   m_TagString: Player
@@ -169,7 +170,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 112
@@ -218,6 +219,20 @@ MonoBehaviour:
   pulseSpeed: 1
   pulseIntensity: 0.3
   particlePrefab: {fileID: 3456789012345678901, guid: ebb59fc6d31e84c5da7449609d4187a1, type: 3}
+--- !u!114 &-140586815680194310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2794486032584058564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 985c83e83b9ad40f88ea71d62defc359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  pushForce: 10
+  moveSpeed: 5
 --- !u!1 &3149096123587388962
 GameObject:
   m_ObjectHideFlags: 0
