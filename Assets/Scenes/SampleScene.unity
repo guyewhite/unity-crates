@@ -537,11 +537,9 @@ MonoBehaviour:
   minScale: 0.1
   maxScale: 0.4
   randomRotation: 1
-  generateWind: 1
-  windStrength: 1
-  windPulseFrequency: 0.1
-  windPulseMagnitude: 0.5
-  windFromEast: 1
+  enableTreeSway: 1
+  swayAmount: 1.5
+  swaySpeed: 1.5
 --- !u!4 &1735363483
 Transform:
   m_ObjectHideFlags: 0
