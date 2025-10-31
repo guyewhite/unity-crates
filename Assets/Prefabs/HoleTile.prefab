@@ -124,3 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8857665b364ea42a8879e4acfe731b2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HoleDetection
+  holeFilledSound: {fileID: 8300000, guid: f08dd5043a67b4a409698895f2cb7634, type: 3}
+  soundVolume: 1
