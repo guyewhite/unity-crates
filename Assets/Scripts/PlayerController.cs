@@ -3,15 +3,29 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField] private float tileSize = 1f;
     [SerializeField] private float moveSpeed = 5f;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip cratePushSound; // Drag stone-slab.wav here
+    [SerializeField] [Range(0f, 1f)] private float cratePushVolume = 0.5f; // Volume for crate push sound
+
+    private AudioSource audioSource; // Audio source component
     private Vector3 targetPosition;
     private bool isMoving = false;
 
     void Start()
     {
         targetPosition = transform.position;
+
+        // Setup audio source for crate push sounds
+        audioSource = gameObject.AddComponent<AudioSource>();
+
+        // We'll start it manually
+        audioSource.playOnAwake = false;
+        // 2D sound
+        audioSource.spatialBlend = 0f;
     }
 
     void Update()
@@ -70,6 +84,9 @@ public class PlayerController : MonoBehaviour
 
                 // Push is valid, move the crate
                 hit.collider.transform.position = cratePushPosition;
+
+                // Play crate push sound if audio clip is assigned
+                PlayCratePushSound();
             }
             else if (hit.collider.CompareTag("Wall"))
             {
@@ -98,5 +115,16 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    void PlayCratePushSound()
+    {
+        // Only play if sound clip is assigned and audio source exists
+        if (cratePushSound != null && audioSource != null)
+        {
+            audioSource.clip = cratePushSound;
+            audioSource.volume = cratePushVolume;
+            audioSource.Play();
+        }
     }
 }

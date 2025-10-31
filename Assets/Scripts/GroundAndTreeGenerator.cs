@@ -22,10 +22,16 @@ public class GroundAndTreeGenerator : MonoBehaviour
     [SerializeField] private float swayAmount = 5f; // Degrees of rotation
     [SerializeField] private float swaySpeed = 1.5f; // Speed multiplier
 
+    [Header("Ambient Audio")]
+    [SerializeField] private AudioClip forestAmbience;
+    [SerializeField] [Range(0f, 1f)] private float ambientVolume = 0.5f; // Volume slider 0-100%
+    [SerializeField] private bool playAmbientSound = true; // Toggle ambient sound on/off
+
     void Start()
     {
         GenerateGround();
         GenerateTrees();
+        SetupAmbientAudio(); // Initialize background forest sounds
     }
 
     void GenerateGround()
@@ -90,5 +96,40 @@ public class GroundAndTreeGenerator : MonoBehaviour
         }
 
         Debug.Log($"Generated {treeCount} trees on ground");
+    }
+
+    void SetupAmbientAudio()
+    {
+        // Skip if audio is disabled or no clip assigned
+        if (!playAmbientSound || forestAmbience == null)
+        {
+            if (forestAmbience == null && playAmbientSound)
+            {
+                Debug.LogWarning("Forest ambience audio clip not assigned!");
+            }
+            return;
+        }
+
+        // Add AudioSource component to this GameObject
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+
+        // Set the forest sound clip
+        audioSource.clip = forestAmbience; 
+        
+        // Set volume from inspector slider       
+        audioSource.volume = ambientVolume;
+
+        // Loop continuously
+        audioSource.loop = true;
+
+        // We'll start it manually
+        audioSource.playOnAwake = false;
+        
+        // 2D sound (not positional)
+        audioSource.spatialBlend = 0f;        
+
+        // Start playing the ambient sound
+        audioSource.Play();
+
     }
 }

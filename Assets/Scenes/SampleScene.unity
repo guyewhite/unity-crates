@@ -540,6 +540,9 @@ MonoBehaviour:
   enableTreeSway: 1
   swayAmount: 1.5
   swaySpeed: 1.5
+  forestAmbience: {fileID: 8300000, guid: 186a7933ea2184e7a9298930a8f10584, type: 3}
+  ambientVolume: 0.05
+  playAmbientSound: 1
 --- !u!4 &1735363483
 Transform:
   m_ObjectHideFlags: 0

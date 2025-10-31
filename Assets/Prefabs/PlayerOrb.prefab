@@ -189,6 +189,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   tileSize: 1
   moveSpeed: 5
+  cratePushSound: {fileID: 8300000, guid: d512f4afdd5e24382aba4e9c5afe1045, type: 3}
+  cratePushVolume: 0.5
 --- !u!114 &1969404363334177346
 MonoBehaviour:
   m_ObjectHideFlags: 0
