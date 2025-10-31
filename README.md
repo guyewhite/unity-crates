@@ -80,6 +80,39 @@ Assets/
 4. Open SampleScene from Assets/Scenes
 5. Press Play to start the game
 
+## Running Unit Tests
+
+### In Unity Editor
+1. Open **Window → General → Test Runner**
+2. Select the **PlayMode** tab for gameplay tests
+3. Click **Run All** to execute all tests
+4. Tests display with checkmarks (✓) when passing
+5. Failed tests show detailed error logs
+
+### Available Tests
+- **PlayerExistsInScene** - Verifies player GameObject spawns with correct tag
+- **PlayerSpawnsWithinBoardBounds** - Ensures player starts within playable area
+
+### Command Line Testing
+```bash
+# macOS/Linux
+/path/to/Unity -runTests -batchmode -projectPath "/path/to/unity-crates" -testResults results.xml -testPlatform PlayMode
+
+# Windows
+Unity.exe -runTests -batchmode -projectPath "C:\path\to\unity-crates" -testResults results.xml -testPlatform PlayMode
+```
+
+### Test Structure
+```
+Assets/Tests/
+└── PlayMode/
+    ├── PlayerExistsTest.cs
+    ├── PlayerBoundsTest.cs
+    └── PlayModeTests.asmdef
+```
+
+Tests use NUnit framework with Unity Test Framework extensions. The `[Order]` attribute ensures sequential execution when dependencies exist between tests.
+
 ## Customization Options
 
 ### In Unity Inspector
