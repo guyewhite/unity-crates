@@ -97,8 +97,6 @@ public class HoleDetection : MonoBehaviour
         {
             winTriggered = true;
 
-            Debug.Log("VICTORY! All holes are filled!");
-
             // Play victory sound
             if (victorySound != null)
             {
@@ -109,7 +107,7 @@ public class HoleDetection : MonoBehaviour
         }
         else if (filledHoleCount == holes.Length && holes.Length > 0 && winTriggered)
         {
-            // Already triggered, don't spam the log
+            // Already triggered, don't spam the sound
         }
         // Reset win trigger if not all holes are filled anymore
         else if (filledHoleCount < holes.Length)

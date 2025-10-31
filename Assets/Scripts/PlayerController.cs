@@ -45,6 +45,12 @@ public class PlayerController : MonoBehaviour
                     Move(Vector3.left);
                 else if (kb.rightArrowKey.wasPressedThisFrame || kb.dKey.wasPressedThisFrame)
                     Move(Vector3.right);
+
+                // Check for spacebar to reset all objects
+                if (kb.spaceKey.wasPressedThisFrame)
+                {
+                    Reset.ResetAll();
+                }
             }
         }
 

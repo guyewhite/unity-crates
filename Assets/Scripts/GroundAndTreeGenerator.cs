@@ -41,11 +41,6 @@ public class GroundAndTreeGenerator : MonoBehaviour
         {
             GameObject ground = Instantiate(groundPrefab, groundPosition, Quaternion.identity);
             ground.name = "Ground";
-            Debug.Log($"Ground spawned at {groundPosition}");
-        }
-        else
-        {
-            Debug.LogWarning("Ground prefab not assigned!");
         }
     }
 
@@ -54,7 +49,6 @@ public class GroundAndTreeGenerator : MonoBehaviour
         // Skip if no tree prefab assigned
         if (treePrefab == null)
         {
-            Debug.LogWarning("Tree prefab not assigned, skipping tree generation");
             return;
         }
 
@@ -87,15 +81,12 @@ public class GroundAndTreeGenerator : MonoBehaviour
                 // Use the sway settings directly from the inspector
                 sway.swayAmount = swayAmount;
                 sway.swaySpeed = swaySpeed;
-                Debug.Log($"Added TreeSwaySimulator to {tree.name} with amount: {sway.swayAmount}, speed: {sway.swaySpeed}");
             }
 
             // Parent to forest object
             tree.transform.parent = treeParent.transform;
             tree.name = $"Tree_{i}";
         }
-
-        Debug.Log($"Generated {treeCount} trees on ground");
     }
 
     void SetupAmbientAudio()
@@ -103,10 +94,6 @@ public class GroundAndTreeGenerator : MonoBehaviour
         // Skip if audio is disabled or no clip assigned
         if (!playAmbientSound || forestAmbience == null)
         {
-            if (forestAmbience == null && playAmbientSound)
-            {
-                Debug.LogWarning("Forest ambience audio clip not assigned!");
-            }
             return;
         }
 
@@ -124,7 +111,7 @@ public class GroundAndTreeGenerator : MonoBehaviour
 
         // We'll start it manually
         audioSource.playOnAwake = false;
-        
+
         // 2D sound (not positional)
         audioSource.spatialBlend = 0f;        
 
