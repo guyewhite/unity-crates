@@ -18,8 +18,6 @@ public class TreeSwaySimulator : MonoBehaviour
         // Random offset so trees don't all sway in sync
         timeOffset = Random.Range(0f, Mathf.PI * 2f);
         randomOffset = Random.Range(0.8f, 1.2f);
-
-        Debug.Log($"TreeSwaySimulator initialized on {gameObject.name} with swayAmount: {swayAmount}, swaySpeed: {swaySpeed}");
     }
 
     void Update()
