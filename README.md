@@ -1,6 +1,6 @@
 # unity-crates
 
-![Game Screenshot](Screenshot.png)
+![Game Screenshot](screenshot.png)
 
 ## Overview
 A box puzzle game demonstrating fundamental Unity Engine concepts. This is meditative puzzle game where you play as a glowing orb, pushing crates into mystical holes to complete each level. Set above a serene forest with gently swaying trees, the game combines strategic thinking with a calming atmosphere.
