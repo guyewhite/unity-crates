@@ -3,7 +3,7 @@
 ![Game Screenshot](screenshot.png)
 
 ## Overview
-A box puzzle game demonstrating fundamental Unity Engine concepts. This is meditative puzzle game where you play as a glowing orb, pushing crates into mystical holes to complete each level. Set above a serene forest with gently swaying trees, the game combines strategic thinking with a calming atmosphere.
+A box puzzle game demonstrating fundamental Unity Engine concepts. This is a meditative puzzle game where you play as a glowing orb, pushing crates into mystical holes to complete each level. Set above a serene forest with gently swaying trees, the game combines strategic thinking with a calming atmosphere.
 
 ## Gameplay
 Guide your ethereal orb through procedurally generated puzzles, pushing crates to fill every hole on the board. Each move requires careful planning - crates can only be pushed, not pulled, making every decision count.
